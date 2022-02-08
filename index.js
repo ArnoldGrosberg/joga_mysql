@@ -45,7 +45,6 @@ app.get('/', (req, res) => {
 		articles: articles
 	})
 })
-res.render('index')
 });
 
 // app start point
