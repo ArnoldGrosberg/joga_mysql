@@ -60,6 +60,29 @@ app.get('/article/:slug', (req, res) => {
 	});
 });
 
+// show articles by author
+app.get('/author/:id', (req, res) => {
+	// query for the name and articles
+	let authorQuery = `SELECT name as author_name FROM author WHERE id = ${req.params.id}`
+	let author
+	let articlesQuery = `SELECT * FROM article WHERE author_id = ${req.params.id}`
+	let articles
+	// does the query
+	con.query(articlesQuery, (err, result) => {
+		if (err) throw err;
+		articles = result
+	})
+	con.query(authorQuery, (err, result) => {
+		if (err) throw err;
+		author = result
+		// render author and articles tags.
+		res.render('author', {
+			author: author,
+			articles: articles
+		})
+	})
+})
+
 // app start point
 app.listen(3000, () => {
 	console.log('App is started at http://localhost:3000');
